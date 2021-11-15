@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-class Appbar extends StatelessWidget {
+class AppbarTitle extends StatelessWidget {
   final String sectionName;
-  const Appbar({
+  const AppbarTitle({
     Key? key,
     required this.sectionName,
   }) : super(key: key);

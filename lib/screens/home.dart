@@ -15,7 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Color(0xFF2C384A),
-        title: Appbar(
+        title: AppbarTitle(
           sectionName: 'CRUD',
         ),
       ),
