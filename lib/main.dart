@@ -1,3 +1,4 @@
+import 'package:crud_firestore_app/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,14 +11,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("Flutter Firestore CRUD"),
-        ),
-      ),
+      home: LoginScreen(),
     );
   }
 }
