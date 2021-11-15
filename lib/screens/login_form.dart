@@ -19,6 +19,8 @@ class _LoginFormState extends State<LoginForm> {
   final TextEditingController _uidController = TextEditingController();
 
   final _loginInFormKey = GlobalKey<FormState>();
+
+  String getId = "";
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -40,9 +42,12 @@ class _LoginFormState extends State<LoginForm> {
                   inputAction: TextInputAction.done,
                   label: 'Unique User ID',
                   hint: 'Enter your unique identifier',
-                  validator: (value) => Validator.validateUserId(
-                    uid: value,
-                  ),
+                  validator: (value){
+                    Validator.validateUserId(
+                      uid: value,
+                    );
+                    getId = value;
+                  },
                 ),
               ],
             ),
@@ -63,7 +68,7 @@ class _LoginFormState extends State<LoginForm> {
                 onPressed: () {
                   widget.focusNode.unfocus();
                   if(_loginInFormKey.currentState !.validate()){
-                    Database.userId = _uidController.text;
+                    Database.userId = getId;
 
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (context)=> HomeScreen(),),

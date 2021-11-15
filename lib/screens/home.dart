@@ -1,5 +1,7 @@
+import 'package:crud_firestore_app/screens/add_screen.dart';
 import 'package:crud_firestore_app/screens/app_bar.dart';
 import 'package:flutter/material.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -20,7 +22,13 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed:(){},
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => AddScreen(),
+            ),
+          );
+        },
         backgroundColor: Colors.orangeAccent,
         child: Icon(
           Icons.add,
@@ -29,10 +37,13 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       body: SafeArea(
-          child: Padding(
-              padding: const EdgeInsets.only(left: 16.0, right:16.0, bottom: 20.0 ,),
-
+        child: Padding(
+          padding: const EdgeInsets.only(
+            left: 16.0,
+            right: 16.0,
+            bottom: 20.0,
           ),
+        ),
       ),
     );
   }
