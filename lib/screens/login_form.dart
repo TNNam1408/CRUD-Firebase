@@ -36,6 +36,8 @@ class _LoginFormState extends State<LoginForm> {
             child: Column(
               children: [
                 CustomFormField(
+                  isObscure: true,
+                  initialValue: "",
                   controller: _uidController,
                   focusNode: widget.focusNode,
                   keyboardType: TextInputType.text,
@@ -47,6 +49,7 @@ class _LoginFormState extends State<LoginForm> {
                       uid: value,
                     );
                     getId = value;
+                    print("value:$value");
                   },
                 ),
               ],

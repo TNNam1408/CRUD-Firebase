@@ -8,6 +8,7 @@ class CustomFormField extends StatelessWidget {
     required TextInputAction inputAction,
     required String label,
     required String hint,
+    required String initialValue,
     required Function(String value) validator,
     this.isObscure = false,
     this.isCapitalized = false,
@@ -20,6 +21,7 @@ class CustomFormField extends StatelessWidget {
         _label = label,
         _hint = hint,
         _validator = validator,
+        _initialValue = initialValue,
 
         super(key: key);
 
@@ -27,6 +29,7 @@ class CustomFormField extends StatelessWidget {
   final TextInputAction _inputAction;
   final String _label;
   final String _hint;
+  final String _initialValue;
   final bool isObscure;
   final bool isCapitalized;
   final int maxLines;
@@ -36,6 +39,10 @@ class CustomFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      style: TextStyle(
+        color: Colors.grey,
+      ),
+      initialValue: _initialValue,
       maxLines: maxLines,
       keyboardType: _keyboardtype,
       obscureText: isObscure,

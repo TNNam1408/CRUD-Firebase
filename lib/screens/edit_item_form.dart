@@ -1,30 +1,37 @@
-import 'package:crud_firestore_app/custom_form_field.dart';
 import 'package:crud_firestore_app/validators/database.dart';
 import 'package:crud_firestore_app/validators/validator.dart';
 import 'package:flutter/material.dart';
 
-class AddItemForm extends StatefulWidget {
+import '../custom_form_field.dart';
+class EditItemForm extends StatefulWidget {
+
+
+  final String documentId;
   final FocusNode titleFocusNode;
   final FocusNode descriptionFocusNode;
+  final String currentTitle;
+  final String currentDescription;
 
-  const AddItemForm({
+  const EditItemForm({
+    required this.documentId,
     required this.titleFocusNode,
     required this.descriptionFocusNode,
-  });
-
+    required this.currentTitle,
+    required this.currentDescription,
+});
   @override
-  _AddItemFormState createState() => _AddItemFormState();
+  _EditItemFormState createState() => _EditItemFormState();
 }
 
-class _AddItemFormState extends State<AddItemForm> {
+class _EditItemFormState extends State<EditItemForm> {
   final _addItemFormKey = GlobalKey<FormState>();
   bool _isProcessing = false;
 
   final TextEditingController _titleControler = TextEditingController();
   final TextEditingController _descriptionControler = TextEditingController();
 
-  String getTitle = "";
-  String getDescription = "";
+  String updateTitle = "";
+  String updateDescription = "";
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -34,7 +41,7 @@ class _AddItemFormState extends State<AddItemForm> {
           children: [
             Padding(
               padding:
-                  const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 24.0),
+              const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 24.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -50,7 +57,7 @@ class _AddItemFormState extends State<AddItemForm> {
                   ),
                   SizedBox(height: 8.0),
                   CustomFormField(
-                    initialValue: "",
+                    initialValue: widget.currentTitle,
                     isLabelEnabled: false,
                     controller: _titleControler,
                     focusNode: widget.titleFocusNode,
@@ -60,7 +67,7 @@ class _AddItemFormState extends State<AddItemForm> {
                       Validator.validateField(
                         value: value,
                       );
-                      getTitle = value;
+                      updateTitle = value;
                     },
                     label: 'Title',
                     hint: 'Write your title',
@@ -77,7 +84,7 @@ class _AddItemFormState extends State<AddItemForm> {
                   ),
                   SizedBox(height: 8.0),
                   CustomFormField(
-                    initialValue: "",
+                    initialValue: widget.currentDescription,
                     maxLines: 10,
                     isLabelEnabled: false,
                     controller: _descriptionControler,
@@ -88,7 +95,7 @@ class _AddItemFormState extends State<AddItemForm> {
                       Validator.validateField(
                         value: value,
                       );
-                      getDescription = value;
+                      updateDescription = value;
                     },
                     label: 'Description',
                     hint: 'Write your Description',
@@ -98,59 +105,60 @@ class _AddItemFormState extends State<AddItemForm> {
             ),
             _isProcessing
                 ? Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: CircularProgressIndicator(
-                      valueColor:
-                          AlwaysStoppedAnimation<Color>(Colors.orangeAccent),
-                    ),
-                  )
+              padding: const EdgeInsets.all(16.0),
+              child: CircularProgressIndicator(
+                valueColor:
+                AlwaysStoppedAnimation<Color>(Colors.orangeAccent),
+              ),
+            )
                 : Container(
-                    width: double.maxFinite,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.orangeAccent),
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      ),
-                      onPressed: () async {
-                        widget.titleFocusNode.unfocus();
-                        widget.descriptionFocusNode.unfocus();
-
-                        if (_addItemFormKey.currentState!.validate()) {
-                          setState(() {
-                            _isProcessing = true;
-                          });
-
-                          await Database.addItem(
-                            title: getTitle,
-                            description: getDescription,
-                          );
-
-                          setState(() {
-                            _isProcessing = false;
-                          });
-
-                          Navigator.of(context).pop();
-                        }
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 16.0, bottom: 16.0),
-                        child: Text(
-                          'Add Data',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blueGrey,
-                            letterSpacing: 2,
-                          ),
-                        ),
-                      ),
+              width: double.maxFinite,
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor:
+                  MaterialStateProperty.all(Colors.orangeAccent),
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
+                ),
+                onPressed: () async {
+                  widget.titleFocusNode.unfocus();
+                  widget.descriptionFocusNode.unfocus();
+
+                  if (_addItemFormKey.currentState!.validate()) {
+                    setState(() {
+                      _isProcessing = true;
+                    });
+
+                    await Database.updateItem(
+                      docId: widget.documentId,
+                      title: updateTitle,
+                      description: updateDescription,
+                    );
+
+                    setState(() {
+                      _isProcessing = false;
+                    });
+
+                    Navigator.of(context).pop();
+                  }
+                },
+                child: Padding(
+                  padding: EdgeInsets.only(top: 16.0, bottom: 16.0),
+                  child: Text(
+                    'Update Data',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blueGrey,
+                      letterSpacing: 2,
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),

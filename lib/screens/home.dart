@@ -1,6 +1,8 @@
 import 'package:crud_firestore_app/screens/add_screen.dart';
 import 'package:crud_firestore_app/screens/app_bar.dart';
+import 'package:crud_firestore_app/screens/item_list.dart';
 import 'package:flutter/material.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -43,6 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
             right: 16.0,
             bottom: 20.0,
           ),
+          child: ItemList(),
         ),
       ),
     );
